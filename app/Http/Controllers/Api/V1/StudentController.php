@@ -20,7 +20,7 @@ class StudentController extends Controller
         $student = Student::all();
         return response()->json([
             'message' => 'Students retrieved successfully',
-            'data'=> StudentResource::collection($student),
+            'data' => StudentResource::collection($student),
         ]);
     }
 
@@ -44,14 +44,13 @@ class StudentController extends Controller
     public function show(string $id)
     {
         $student = Student::find($id);
-        if(!$student) {
+        if (!$student) {
             return response()->json(['message' => 'Student not found'], 404);
         }
         return response()->json([
             'message' => 'Student retrieved successfully',
             'data' => $student
         ]);
-
     }
 
     /**
@@ -60,7 +59,7 @@ class StudentController extends Controller
     public function update(UpdateRequest $request, string $id)
     {
         $student = Student::find($id);
-        if(!$student) {
+        if (!$student) {
             return response()->json(['message' => 'Student not found'], 404);
         }
         $validated = $request->validated();
@@ -81,5 +80,25 @@ class StudentController extends Controller
         }
         $student->delete();
         return response()->json(['message' => 'Student deleted successfully.']);
+    }
+
+
+    public function getStudentsAboveAge()
+    {
+        $students = Student::where('age', '>', 18)->get();
+        return response()->json([
+            'message' => 'Students aged above 18 retrieved successfully.',
+            'data' => StudentResource::collection($students),
+        ]);
+    }
+
+    public function getStudentsFromSiemReap()
+    {
+        $students = Student::where('province', 'Siem Reap')->get();
+
+        return response()->json([
+            'message' => 'Students from Siem Reap retrieved successfully.',
+            'data' => StudentResource::collection($students),
+        ]);
     }
 }

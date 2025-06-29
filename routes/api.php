@@ -21,7 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function(): void {
+Route::prefix('v1')->group(function (): void {
     Route::apiResource('teachers', TeacherController::class);
     Route::apiResource('students', StudentController::class);
 });
+Route::get('/students/above-age-18', [StudentController::class, 'getStudentsAboveAge']);
+Route::get('students/from-siemreap', [StudentController::class, 'getStudentsFromSiemReap']);
